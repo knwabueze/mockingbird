@@ -8,7 +8,6 @@ export class AuthUser {
 }
 
 export class UIStore {
-    @observable users = null;
     @observable currentUser = null;
     ref = null;
     auth = null;

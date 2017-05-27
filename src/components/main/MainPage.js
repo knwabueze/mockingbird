@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet, css } from 'aphrodite'
-import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 
 import Header from './Header'
@@ -19,6 +18,10 @@ class MainPage extends React.Component {
             backgroundColor: '#F5F8FA'
         }
     })
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.location === this.props.location
+    }
     
     render() {
         return <div data-main-page >
@@ -42,4 +45,4 @@ class MainPage extends React.Component {
     }
 }
 
-export default withRouter(MainPage);
+export default MainPage;

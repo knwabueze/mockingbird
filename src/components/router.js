@@ -7,13 +7,19 @@ import {
 } from 'react-router-dom';
 
 import MainPage from './main/MainPage';
+import LoginModal from './login/LoginModal';
 import { Provider } from 'mobx-react';
 
 export const createRouter = stores =>
     <Provider {...stores}>
         <Router>
-            <Switch>
-                <Route exact path="/" component={MainPage} />
-            </Switch>
+            <div>
+                <Switch>
+                    <Route path="/" component={MainPage} />
+                </Switch>
+                <div data-modal-routes>
+                    <Route path="/login" component={LoginModal} />
+                </div>
+            </div>
         </Router>
     </Provider>;

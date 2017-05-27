@@ -28,7 +28,13 @@ const Navbar = ({ transparent, hasShadow }) => <header
         </div>
         <div className="nav-right">
             <NavLink activeClassName="is-active" to="/signup" className="nav-item">Sign Up</NavLink>
-            <NavLink activeClassName="is-active" to="/login" className="nav-item">Login</NavLink>
+            <NavLink activeClassName="is-active" to={{
+                pathname: "/login",
+                state: {
+                    modal: true,
+                    callBackRoute: "/"
+                }
+            }} className="nav-item">Login</NavLink>
         </div>
     </div>
 </header>;
