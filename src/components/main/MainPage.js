@@ -22,12 +22,17 @@ class MainPage extends React.Component {
     shouldComponentUpdate(nextProps, nextState) {
         return nextProps.location === this.props.location
     }
-    
+
     render() {
         return <div data-main-page >
             <Header />
             <section className={`section ${css(this.styles.body)}`}>
                 <div className="container">
+                    <div className="level">
+                            <h1 className="title is-4 level-item">
+                                Unsplash.it Images
+                            </h1>
+                    </div>
                     <MasonryLayout
                         columnSize="15em"
                         columnGap="1em">

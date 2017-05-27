@@ -17,9 +17,9 @@ export const createRouter = stores =>
                 <Switch>
                     <Route path="/" component={MainPage} />
                 </Switch>
-                <div data-modal-routes>
+                <Switch data-modal-routes>
                     <Route path="/login" component={LoginModal} />
-                </div>
+                </Switch>
             </div>
         </Router>
     </Provider>;

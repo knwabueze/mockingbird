@@ -24,8 +24,8 @@ const Card = ({ x, y }) =>
                     </figure>
                 </div>
                 <div className="media-content">
-                    <p className="title is-4">John Smith</p>
-                    <p className="subtitle is-6">@johnsmith</p>
+                    <p className="title is-4">Unsplash</p>
+                    <p className="subtitle is-6">@unsplash</p>
                 </div>
             </div>
 
