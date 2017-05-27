@@ -4,6 +4,7 @@ export class AuthUser {
     @observable uid;
     @observable username;
     @observable email;
+    @observable image;
 }
 
 export class UIStore {
@@ -13,9 +14,8 @@ export class UIStore {
     auth = null;
 
     constructor(auth, database) {
-        this.ref = database.ref('users');
-        this.auth = auth;
-        this.users = this.ref.on('value', snap => this.users = snap.val());
+        this.ref = database.ref();
+        this.auth = auth();
     }
 
     @action listenUserState() {
@@ -25,6 +25,7 @@ export class UIStore {
                 this.currentUser.username = user.displayName;
                 this.currentUser.uid = user.uid;
                 this.currentUser.email = user.email;
+                this.currentUser.image = user.photoURL;
             } else {    
                 this.currentUser = null;
             }
@@ -33,11 +34,6 @@ export class UIStore {
 
     @action createUser(email, password) {
         this.auth.createUserWithEmailAndPassword(email, password).catch(err => console.log(err));
-        while (this.currentUser.uid == null) {}
-        this.ref.child(`${this.currentUser.uid}`).set({
-            username: this.currentUser.username,
-            email: this.currentUser.email
-        })
     }
 
     @action signOut() {

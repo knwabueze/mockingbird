@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
     }
 })
 
-const Header = () => <header className={["hero is-small is-dark", css(styles.heroStyles)].join(' ')}>
+const Header = () => <header className={`hero is-small is-dark ${css(styles.heroStyles)}`}>
     <div className="hero-head">
         <Navbar transparent />
     </div>
     <div className="hero-body has-text-centered">
-        <h1 className={["title is-1", css(styles.title)].join(' ')}>It's a sin to kill a mockingbird.</h1>
-        <h2 className={["subtitle is-4", css(styles.subtitle)]}>- Atticus Finch</h2>
+        <h1 className={`title is-1 ${css(styles.title)}`}>It's a sin to kill a mockingbird.</h1>
+        <h2 className={`subtitle is-4 ${css(styles.subtitle)}`}>- Atticus Finch</h2>
     </div>
 </header>;
 

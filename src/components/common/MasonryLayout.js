@@ -12,7 +12,7 @@ const MasonryLayout = ({ children, columnSize, columnGap, columnCount, style, cl
     });
     return <div
         data-masonry
-        className={[className, css(styles.masonry)].join(' ')}
+        className={`${className} ${css(styles.masonry)}`}
         style={style}>
         {children}
     </div>

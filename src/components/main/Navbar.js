@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         boxShadow: '0 0 black'
     },
     logoStyle: {
-        fontSize: 25
+        fontSize: 25,
     },
     transparentLogoStyle: {
         filter: 'brightness(0) invert(1)'
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
 });
 
 const Navbar = ({ transparent, hasShadow }) => <header
-    className={['nav', hasShadow ? 'has-shadow' : '', css(transparent && !hasShadow ? styles.transparentStyle : '')].join(' ')}>
+    className={`nav ${hasShadow ? 'has-shadow' : ''} ${css(transparent && !hasShadow ? styles.transparentStyle : '')}`}>
     <div className="container">
         <div className="nav-left">
             <span
-                className={["nav-item", css(transparent ? [styles.transparentLogoStyle, styles.logoStyle] : styles.logoStyle)].join(' ')}
+                className={`nav-item ${css(transparent ? [styles.transparentLogoStyle, styles.logoStyle] : styles.logoStyle)}`}
                 role="img"
                 aria-label="mockingbird">
                 &#128038;
