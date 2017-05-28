@@ -12,10 +12,20 @@ const styles = {
     },
     transparentLogoStyle: {
         filter: 'brightness(0) invert(1)'
+    },
+    logInButton: {
+        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        borderColor: 'rgba(255, 255, 255, 0.4)',
+        width: '7em',
+        color: 'white',
+        ':hover': {
+            backgroundColor: 'rgba(255, 255, 255, 1)',
+            color: '#7973AA'
+        }
     }
 };
 
-const Navbar = Radium(({ transparent, hasShadow }) => <header
+const Navbar = Radium(({ transparent, hasShadow, logInClicked }) => <header
     className={`nav ${hasShadow ? 'has-shadow' : ''}`}
     style={transparent && !hasShadow ? styles.transparentStyle : {}}>
     <div className="container">
@@ -30,20 +40,17 @@ const Navbar = Radium(({ transparent, hasShadow }) => <header
         </div>
         <div className="nav-right">
             <NavLink activeClassName="is-active" to="/signup" className="nav-item">Sign Up</NavLink>
-            <NavLink activeClassName="is-active" to={{
-                pathname: "/login",
-                state: {
-                    modal: true,
-                    callBackRoute: "/"
-                }
-            }} className="nav-item">Login</NavLink>
+            <div className="nav-item">
+                <a onClick={logInClicked} style={styles.logInButton} className="button">Log In</a>
+            </div>
         </div>
     </div>
 </header>);
 
 Navbar.propTypes = {
     transparent: PropTypes.bool,
-    hasShadow: PropTypes.bool
+    hasShadow: PropTypes.bool,
+    logInClicked: PropTypes.func.isRequired
 };
 
 export default Navbar;

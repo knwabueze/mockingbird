@@ -3,37 +3,28 @@ import { withRouter } from 'react-router-dom'
 import Modal from '../common/Modal'
 import PropTypes from 'prop-types'
 import LoginForm from './LoginForm'
+import { connect } from 'react-redux'
+import { toggleLoginModal } from '../../actions/ui-actions'
 
+@connect(
+    ({ ui }) => ({ shouldShowModal: ui.LOGIN_MODAL_IS_VISIBLE }),
+    dispatch => ({
+        closeModal: () => dispatch(toggleLoginModal())
+    })
+)
 class LoginModal extends React.Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
-    }
-
-    pushPreviousRoute = () => {
-        const { history, location } = this.props;
-        history.push(location.state.callBackRoute);
+        history: PropTypes.object.isRequired,
+        shouldShowModal: PropTypes.bool.isRequired,
+        closeModal: PropTypes.func.isRequired
     }
 
     render() {
-        const { location, history } = this.props;
-        const isModal = !!(
-            location.state &&
-            location.state.modal
-        )
-
-        if (location.state === undefined || location.state.modal === undefined) {
-            if (location.state === undefined || location.state.callBackRoute === undefined) {
-                history.push("/");
-            } else {
-                history.push(location.state.callBackRoute);
-            }
-        }
-
         return <Modal
-            isCard
-            isOpen={isModal}
-            closeModal={this.pushPreviousRoute}
+            isCard            
+            isOpen={this.props.shouldShowModal}
+            closeModal={this.props.closeModal}
             login-modal>
                 <section className="modal-card-body">
                     <LoginForm />

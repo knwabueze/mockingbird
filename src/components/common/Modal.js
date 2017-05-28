@@ -14,7 +14,7 @@ class Modal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!this.props.isOpen && nextProps.isOpen)
+        if (!this.props.isOpen && nextProps.isOpen && this.props.onOpen)
             this.props.onOpen();
     }
 
@@ -35,7 +35,7 @@ class Modal extends React.Component {
                 <div onClick={() => this.props.closeModal()} style={this.styles.background} className='modal-background'></div>
                 <div className={`${isCard ? 'modal-card' : 'modal-content'}`}>{children}</div>
                 <button className="modal-close" onClick={() => this.props.closeModal()}></button>
-            </section> : ''
+            </section> : <span />
     }
 }
 

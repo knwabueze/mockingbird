@@ -1,24 +1,27 @@
 import React from 'react'
 import Radium from 'radium'
-
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import Header from './Header'
 import Card from '../common/Card'
 import MasonryLayout from '../common/MasonryLayout'
-import { connect } from 'react-redux'
-import { logInWithEmailAndPassword, bindUserChanged, signOut } from '../../actions/authActions'
+import { toggleLoginModal } from '../../actions/ui-actions'
+import LoginModal from '../login/LoginModal'
 
 const randomOutput = (max, min) => Math.round((Math.random() * (max - min) + min));
 
 @Radium
 @connect(
-    ({ ui }) => ({ ui }),
-    (dispatch) => ({
-        logIn: (email, password) => dispatch(logInWithEmailAndPassword(email, password)),
-        bindAuth: () => dispatch(bindUserChanged()),
-        signOut: () => dispatch(signOut())
+    (state) => ({}),
+    dispatch => ({
+        showModal: () => dispatch(toggleLoginModal())
     })
 )
 class MainPage extends React.Component {
+    static propTypes = {
+        showModal: PropTypes.func.isRequired
+    }
+
     styles = {
         body: {
             fontSmoothing: 'antialiased',
@@ -31,18 +34,17 @@ class MainPage extends React.Component {
         return nextProps.location === this.props.location
     }
 
-    componentWillMount() {
-        this.props.bindAuth()
+    showModal = () => {
+        const { showModal } = this.props;
+        showModal();
     }
 
     render() {
         return <div data-main-page >
-            <Header />
+            <Header logInClicked={this.showModal} />
             <section className='section'
                 style={this.styles.body}>
                 <div className="container">
-                    <button onClick={() => this.props.logIn("testboi@gmail.com", "Kamkam22!")}>Log In</button>
-                    <button onClick={() => this.props.signOut()}>Sign Out</button>
                     <MasonryLayout
                         columnSize="15em"
                         columnGap="1em">
@@ -56,6 +58,7 @@ class MainPage extends React.Component {
                     </MasonryLayout>
                 </div>
             </section>
+            <LoginModal />
         </div>
     }
 }

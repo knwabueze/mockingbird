@@ -8,7 +8,6 @@ import {
 
 import { Provider } from 'react-redux'
 import MainPage from './main/MainPage';
-import LoginModal from './login/LoginModal'
 
 export const createRouter = store =>
     <Provider store={store}>
@@ -16,9 +15,6 @@ export const createRouter = store =>
             <div>
                 <Switch>
                     <Route path="/" component={MainPage} />
-                </Switch>
-                <Switch>
-                    <Route exact strict path="/login" component={LoginModal} />
                 </Switch>
             </div>
         </Router>
