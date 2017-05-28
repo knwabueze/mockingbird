@@ -8,7 +8,7 @@ class Modal extends React.Component {
         isOpen: PropTypes.bool.isRequired,
         onOpen: PropTypes.func,
         className: PropTypes.string,
-        styles: PropTypes.object,
+        style: PropTypes.object,
         closeModal: PropTypes.func.isRequired,
         isCard: PropTypes.bool
     }
@@ -25,13 +25,13 @@ class Modal extends React.Component {
     }
 
     render() {
-        const { isOpen, className, styles, children, isCard } = this.props;
+        const { isOpen, className, style, children, isCard } = this.props;
 
         return isOpen ?
             <section
-                className={`modal ${className ? className : ''} ${isOpen ? 'is-active' : ''}`}
+                className={`modal ${isOpen ? 'is-active' : ''} ${className ? className : ''}`}
                 key={0}
-                style={styles ? styles : {}}>
+                style={style ? style : {}}>
                 <div onClick={() => this.props.closeModal()} style={this.styles.background} className='modal-background'></div>
                 <div className={`${isCard ? 'modal-card' : 'modal-content'}`}>{children}</div>
                 <button className="modal-close" onClick={() => this.props.closeModal()}></button>

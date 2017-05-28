@@ -4,13 +4,13 @@ const initialState = {
     LOGIN_MODAL_IS_VISIBLE: false
 }
 
-export default function ui(previousState = initialState, action) {
+export default function ui(state = initialState, action) {
     switch (action.type) {
         case LOGIN_MODAL_TOGGLE:
-            return Object.assign({}, previousState, {
-                LOGIN_MODAL_IS_VISIBLE: !previousState.LOGIN_MODAL_IS_VISIBLE
+            return Object.assign({}, state, {
+                LOGIN_MODAL_IS_VISIBLE: !state.LOGIN_MODAL_IS_VISIBLE
             })
         default:
-            return previousState;
+            return state;
     }
 }
