@@ -7,7 +7,7 @@ const app = firebase.initializeApp({
     projectId: "mockingbird-46b90",
     storageBucket: "mockingbird-46b90.appspot.com",
     messagingSenderId: "182991538098"
-});
+})
 
-export const database = app.database();
 export const auth = app.auth;
+export const database = app.database();

@@ -1,9 +1,9 @@
 import React from 'react'
+import Radium from 'radium'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { StyleSheet, css } from 'aphrodite'
 
-const styles = StyleSheet.create({
+const styles = {
     transparentStyle: {
         boxShadow: '0 0 black'
     },
@@ -13,14 +13,16 @@ const styles = StyleSheet.create({
     transparentLogoStyle: {
         filter: 'brightness(0) invert(1)'
     }
-});
+};
 
-const Navbar = ({ transparent, hasShadow }) => <header
-    className={`nav ${hasShadow ? 'has-shadow' : ''} ${css(transparent && !hasShadow ? styles.transparentStyle : '')}`}>
+const Navbar = Radium(({ transparent, hasShadow }) => <header
+    className={`nav ${hasShadow ? 'has-shadow' : ''}`}
+    style={transparent && !hasShadow ? styles.transparentStyle : {}}>
     <div className="container">
         <div className="nav-left">
             <span
-                className={`nav-item ${css(transparent ? [styles.transparentLogoStyle, styles.logoStyle] : styles.logoStyle)}`}
+                className='nav-item'
+                style={[styles.logoStyle, transparent ? styles.transparentLogoStyle : {}]}
                 role="img"
                 aria-label="mockingbird">
                 &#128038;
@@ -37,7 +39,7 @@ const Navbar = ({ transparent, hasShadow }) => <header
             }} className="nav-item">Login</NavLink>
         </div>
     </div>
-</header>;
+</header>);
 
 Navbar.propTypes = {
     transparent: PropTypes.bool,

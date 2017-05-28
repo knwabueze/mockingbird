@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import Modal from '../common/Modal'
 import PropTypes from 'prop-types'
+import LoginForm from './LoginForm'
 
 class LoginModal extends React.Component {
     static propTypes = {
@@ -35,7 +36,7 @@ class LoginModal extends React.Component {
             closeModal={this.pushPreviousRoute}
             login-modal>
                 <section className="modal-card-body">
-                    <p>Hello</p>
+                    <LoginForm />
                 </section>
         </Modal>
     }

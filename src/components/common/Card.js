@@ -1,16 +1,16 @@
 import React from 'react'
-import { StyleSheet, css } from 'aphrodite'
+import Radium from 'radium'
 
-const cardStyles = StyleSheet.create({
+const cardStyles = {
     card: {
         marginBottom: '1em',
         display: 'inline-block',
         backgroundColor: '#fefefe'
     }
-})
+}
 
-const Card = ({ x, y }) =>
-    <div className={[css(cardStyles.card), "card"].join(' ')}>
+const Card = Radium(({ x, y }) =>
+    <div style={[cardStyles.card]} className="card">
         <div className="card-image">
             <figure className="image">
                 <img src={`//source.unsplash.com/random/${x}x${y}`} alt="1280x960" />
@@ -37,6 +37,6 @@ const Card = ({ x, y }) =>
                 <small>11:09 PM - 1 Jan 2016</small>
             </div>
         </div>
-    </div>;
+</div>);
 
 export default Card;

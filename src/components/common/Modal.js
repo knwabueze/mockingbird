@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, css } from 'aphrodite'
+import Radium from 'radium'
 
+@Radium
 class Modal extends React.Component {
     static propTypes = {
         isOpen: PropTypes.bool.isRequired,
@@ -17,24 +18,24 @@ class Modal extends React.Component {
             this.props.onOpen();
     }
 
-    styles = StyleSheet.create({
+    styles = {
         background: {
             backgroundColor: 'rgba(10,10,10,.59)'
         }
-    })
+    }
 
     render() {
         const { isOpen, className, styles, children, isCard } = this.props;
 
         return isOpen ?
-                <section
-                    className={`modal ${className ? className : ''} ${isOpen ? 'is-active' : ''}`}
-                    key={0}
-                    style={styles ? styles : {}}>
-                    <div onClick={() => this.props.closeModal()} className={`modal-background ${css(this.styles.background)}`}></div>
-                    <div className={`${isCard ? 'modal-card' : 'modal-content'}`}>{children}</div>
-                    <button className="modal-close" onClick={() => this.props.closeModal()}></button>
-                </section> : ''
+            <section
+                className={`modal ${className ? className : ''} ${isOpen ? 'is-active' : ''}`}
+                key={0}
+                style={styles ? styles : {}}>
+                <div onClick={() => this.props.closeModal()} style={this.styles.background} className='modal-background'></div>
+                <div className={`${isCard ? 'modal-card' : 'modal-content'}`}>{children}</div>
+                <button className="modal-close" onClick={() => this.props.closeModal()}></button>
+            </section> : ''
     }
 }
 

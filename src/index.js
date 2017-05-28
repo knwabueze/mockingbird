@@ -1,14 +1,12 @@
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { createRouter } from './components/router';
-import { stores } from './stores'
+import store from './store'
 
-ReactDOM.render(createRouter(stores), document.getElementById('root'));
+ReactDOM.render(createRouter(store), document.getElementById('root'));
 
 registerServiceWorker();
 
 if (module.hot) {
-    module.hot.accept('./components/router', () => ReactDOM.render(createRouter(stores)));
+    module.hot.accept('./components/router', () => ReactDOM.render(createRouter(store)));
 };
-
-window.stores = stores;

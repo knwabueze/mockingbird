@@ -1,38 +1,48 @@
 import React from 'react'
-import { StyleSheet, css } from 'aphrodite'
-import { inject, observer } from 'mobx-react'
+import Radium from 'radium'
 
 import Header from './Header'
 import Card from '../common/Card'
 import MasonryLayout from '../common/MasonryLayout'
+import { connect } from 'react-redux'
+import { logInWithEmailAndPassword, bindUserChanged, signOut } from '../../actions/authActions'
 
 const randomOutput = (max, min) => Math.round((Math.random() * (max - min) + min));
 
-@inject('uiStore')
-@observer
+@Radium
+@connect(
+    ({ ui }) => ({ ui }),
+    (dispatch) => ({
+        logIn: (email, password) => dispatch(logInWithEmailAndPassword(email, password)),
+        bindAuth: () => dispatch(bindUserChanged()),
+        signOut: () => dispatch(signOut())
+    })
+)
 class MainPage extends React.Component {
-    styles = StyleSheet.create({
+    styles = {
         body: {
             fontSmoothing: 'antialiased',
             color: '#14171a',
             backgroundColor: '#F5F8FA'
         }
-    })
+    }
 
     shouldComponentUpdate(nextProps, nextState) {
         return nextProps.location === this.props.location
     }
 
+    componentWillMount() {
+        this.props.bindAuth()
+    }
+
     render() {
         return <div data-main-page >
             <Header />
-            <section className={`section ${css(this.styles.body)}`}>
+            <section className='section'
+                style={this.styles.body}>
                 <div className="container">
-                    <div className="level">
-                            <h1 className="title is-4 level-item">
-                                Unsplash.it Images
-                            </h1>
-                    </div>
+                    <button onClick={() => this.props.logIn("testboi@gmail.com", "Kamkam22!")}>Log In</button>
+                    <button onClick={() => this.props.signOut()}>Sign Out</button>
                     <MasonryLayout
                         columnSize="15em"
                         columnGap="1em">

@@ -6,20 +6,20 @@ import {
     Switch
 } from 'react-router-dom';
 
+import { Provider } from 'react-redux'
 import MainPage from './main/MainPage';
-import LoginModal from './login/LoginModal';
-import { Provider } from 'mobx-react';
+import LoginModal from './login/LoginModal'
 
-export const createRouter = stores =>
-    <Provider {...stores}>
+export const createRouter = store =>
+    <Provider store={store}>
         <Router>
             <div>
                 <Switch>
                     <Route path="/" component={MainPage} />
                 </Switch>
-                <Switch data-modal-routes>
-                    <Route path="/login" component={LoginModal} />
+                <Switch>
+                    <Route exact strict path="/login" component={LoginModal} />
                 </Switch>
             </div>
         </Router>
-    </Provider>;
+    </Provider>
