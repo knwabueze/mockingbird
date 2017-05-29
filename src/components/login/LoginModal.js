@@ -2,10 +2,12 @@ import React from 'react'
 import Modal from '../common/Modal'
 import Radium from 'radium'
 import LoginForm from './LoginForm'
-import icon from '../../static/icon.png'
+import icon from '../../static/icon.svg'
 import { inject, observer } from 'mobx-react'
 
-@inject(['ui']) @observer @Radium 
+@inject('ui')
+@observer
+@Radium 
 class LoginModal extends React.Component {
     style = {
         fadeInAnimation: Radium.keyframes({

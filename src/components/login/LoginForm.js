@@ -7,14 +7,15 @@ import { inject, observer } from 'mobx-react'
 }))
 @observer
 class LoginForm extends React.Component {
-    signInUser = () => {
+    signInUser = e => {
+        e.preventDefault();
         const { auth, ui } = this.props;
         auth.signInWithEmailAndPassword(this.refs.email.value, this.refs.password.value);
         ui.toggleLoginModal();
     }
 
     render() {
-        return <form onSubmit={e => e.preventDefault()}>
+        return <form onSubmit={this.signInUser}>
             <div className="field">
                 <p className="control">
                     <input className="input" type="text" placeholder="Email..." ref="email" />
@@ -30,7 +31,7 @@ class LoginForm extends React.Component {
 
                 </div>
                 <p className="control">
-                    <button className="button is-info" onClick={this.signInUser}>
+                    <button className="button is-info" type="submit">
                         Login
                     </button>
                 </p>

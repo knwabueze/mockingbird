@@ -1,10 +1,13 @@
 import React from 'react'
 import Radium from 'radium'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 
-@inject(['ui'])
+@inject(stores => ({
+    ui: stores.ui,
+    auth: stores.auth
+}))
 @observer
 @Radium
 class Navbar extends React.Component {
@@ -37,6 +40,25 @@ class Navbar extends React.Component {
 
     showModal = () => this.props.ui.toggleLoginModal();
 
+    renderNoAuth() {
+        return <div className="nav-right">
+            <NavLink activeClassName="is-active" to="/signup" className="nav-item">Sign Up</NavLink>
+            <div className="nav-item">
+                <a onClick={this.showModal} style={this.styles.logInButton} className="button">Log In</a>
+            </div>
+        </div>
+    }
+
+    renderAuth() {
+        return <div className="nav-right">
+            <NavLink className="nav-item" to={{
+                pathname: '/logout',
+                state: { from: location.pathname }
+            }}>Sign Out</NavLink>
+            <p className="nav-item">Welcome, {this.props.auth.user.email}</p>
+        </div>
+    }
+
     render() {
         const { hasShadow, transparent } = this.props;
         return <header
@@ -52,15 +74,10 @@ class Navbar extends React.Component {
                         &#128038;
                    </span>
                 </div>
-                <div className="nav-right">
-                    <NavLink activeClassName="is-active" to="/signup" className="nav-item">Sign Up</NavLink>
-                    <div className="nav-item">
-                        <a onClick={this.showModal} style={this.styles.logInButton} className="button">Log In</a>
-                    </div>
-                </div>
+                {!this.props.auth.isAuthenticated ? this.renderNoAuth() : this.renderAuth()}
             </div>
         </header>
     }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Custom_Size_1);
+      }
+
+      .cls-2 {
+        fill: #434361;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-Custom_Size_1">
+      <rect width="48" height="48"/>
+    </clipPath>
+  </defs>
+  <g id="Custom_Size_1" data-name="Custom Size – 1" class="cls-1">
+    <rect class="cls-3" width="48" height="48"/>
+    <path id="Subtraction_1" data-name="Subtraction 1" class="cls-2" d="M48,48H0V0H48ZM29.686,24.139h0V37H34V14.928H29.75L24.016,26.863,18.249,14.928H14V37h4.309V24.135l4.247,8.37h2.914Z"/>
+  </g>
+</svg>

@@ -4,13 +4,11 @@ import remotedev from 'mobx-remotedev'
 @remotedev
 export class AuthStore {
     @observable user = null;
-    @observable authPending = true;
 
     constructor(auth) {
         this.auth = auth;
-        this.unbindAuth = auth.onAuthStateChanged(user => {
+        this.unbindAuth = auth.onAuthStateChanged(user => {            
             this.user = user
-            this.authPending = !this.user;
         })
     }
 

@@ -3,10 +3,11 @@ import registerServiceWorker from './registerServiceWorker';
 import { createRouter } from './components/router';
 import createStores from './stores'
 
-ReactDOM.render(createRouter(createStores()), document.getElementById('root'));
+const stores = window.stores = createStores()
+ReactDOM.render(createRouter(stores), document.getElementById('root'));
 
 registerServiceWorker();
 
 if (module.hot) {
-    module.hot.accept('./components/router', () => ReactDOM.render(createRouter(createStores())));
+    module.hot.accept('./components/router', () => ReactDOM.render(createRouter(stores)));
 };

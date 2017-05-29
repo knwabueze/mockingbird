@@ -1,9 +1,6 @@
-import { useStrict } from 'mobx'
 import { UIStore } from './ui'
 import { AuthStore } from './auth'
 import firebase from 'firebase'
-
-useStrict(true);
 
 try {
     firebase.initializeApp({
