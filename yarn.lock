@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/validatorjs@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@types/validatorjs/-/validatorjs-3.7.0.tgz#211a62c5cc84ea8efbaf6a14a0338afa50abf721"
+
 abab@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
@@ -5721,6 +5725,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validatorjs@^3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/validatorjs/-/validatorjs-3.12.0.tgz#6319f4ea872a323dd459000e2cbe9e632fd4816b"
 
 value-equal@^0.2.0:
   version "0.2.1"

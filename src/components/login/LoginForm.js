@@ -1,21 +1,19 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 
-@inject(stores => ({
-    ui: stores.ui,
-    auth: stores.auth
-}))
+@inject("ui", "auth")
 @observer
 class LoginForm extends React.Component {
     signInUser = e => {
         e.preventDefault();
         const { auth, ui } = this.props;
         auth.signInWithEmailAndPassword(this.refs.email.value, this.refs.password.value);
-        ui.toggleLoginModal();
     }
 
     render() {
-        return <form onSubmit={this.signInUser}>
+        const { loading } = this.props.auth
+
+        return !loading ? <form onSubmit={this.signInUser}>
             <div className="field">
                 <p className="control">
                     <input className="input" type="text" placeholder="Email..." ref="email" />
@@ -36,7 +34,7 @@ class LoginForm extends React.Component {
                     </button>
                 </p>
             </div>
-        </form>
+        </form> : <h1>Loading...</h1>
     }
 }
 

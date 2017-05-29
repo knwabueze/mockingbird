@@ -16,7 +16,7 @@ try {
 }
 
 const auth = firebase.auth();
-const database = firebase.database();
+const database = firebase.database().ref();
 
 export default () => ({
     ui: new UIStore(),

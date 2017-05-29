@@ -21,8 +21,8 @@ const Header = Radium(({ logInClicked }) => <header className='hero is-small is-
         <Navbar transparent />
     </div>
     <div className="hero-body has-text-centered">
-    <h1 className='title is-1' style={styles.title}>It's a sin to kill a mockingbird.</h1>
-        <h2 className='subtitle is-4' style={styles.subtitle}>- Atticus Finch</h2>
+        <i><h1 className='title is-1' style={styles.title}>"It's a sin to kill a mockingbird."</h1></i>
+        <i><h2 className='subtitle is-4' style={styles.subtitle}>- Atticus Finch</h2></i>
     </div>
 </header>);
 

@@ -10,9 +10,11 @@
     "radium": "^0.19.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-router-dom": "^4.1.1"
+    "react-router-dom": "^4.1.1",
+    "validatorjs": "^3.12.0"
   },
   "devDependencies": {
+    "@types/validatorjs": "^3.7.0",
     "custom-react-scripts": "^0.0.23",
     "mobx-remotedev": "^0.2.6"
   },

@@ -15,8 +15,8 @@ export const createRouter = stores =>
         <Router>
             <div>
                 <Switch>
-                    <Route path="/logout" component={LogoutRedirect} />                    
-                    <Route path="/" component={MainPage} />
+                    <Route exact path="/logout" component={LogoutRedirect} />
+                    <Route exact path="/" component={MainPage} />
                 </Switch>
             </div>
         </Router>
