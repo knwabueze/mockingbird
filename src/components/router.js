@@ -6,11 +6,11 @@ import {
     Switch
 } from 'react-router-dom';
 
-import { Provider } from 'react-redux'
 import MainPage from './main/MainPage';
+import { Provider } from 'mobx-react'
 
-export const createRouter = store =>
-    <Provider store={store}>
+export const createRouter = stores =>
+    <Provider {...stores}>
         <Router>
             <div>
                 <Switch>

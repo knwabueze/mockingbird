@@ -1,25 +1,12 @@
 import React from 'react'
 import Modal from '../common/Modal'
-import PropTypes from 'prop-types'
 import Radium from 'radium'
 import LoginForm from './LoginForm'
-import { connect } from 'react-redux'
-import { toggleLoginModal } from '../../actions/ui-actions'
 import icon from '../../static/icon.png'
+import { inject, observer } from 'mobx-react'
 
-@connect(
-    ({ ui }) => ({ shouldShowModal: ui.LOGIN_MODAL_IS_VISIBLE }),
-    dispatch => ({
-        closeModal: () => dispatch(toggleLoginModal())
-    })
-)
-@Radium
+@inject(['ui']) @observer @Radium 
 class LoginModal extends React.Component {
-    static propTypes = {
-        shouldShowModal: PropTypes.bool.isRequired,
-        closeModal: PropTypes.func.isRequired
-    }
-
     style = {
         fadeInAnimation: Radium.keyframes({
             '0%': { opacity: '0' },
@@ -36,17 +23,17 @@ class LoginModal extends React.Component {
         },
         iconMargin: {
             marginBottom: '0.8em'
-        },
-        cardWidth: {
-            
         }
     }
 
+    closeModal = () => this.props.ui.toggleLoginModal()
+
     render() {
+        const { showLoginModal } = this.props.ui;
         return <Modal
             isCard
-            isOpen={this.props.shouldShowModal}
-            closeModal={this.props.closeModal}
+            isOpen={showLoginModal}
+            closeModal={this.closeModal}
             login-modal>
             <section className="modal-card-body" style={[this.style.fadeIn,
             this.style.roundedEdges,

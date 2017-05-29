@@ -1,27 +1,14 @@
 import React from 'react'
 import Radium from 'radium'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import Header from './Header'
 import Card from '../common/Card'
 import MasonryLayout from '../common/MasonryLayout'
-import { toggleLoginModal } from '../../actions/ui-actions'
 import LoginModal from '../login/LoginModal'
 
 const randomOutput = (max, min) => Math.round((Math.random() * (max - min) + min));
 
 @Radium
-@connect(
-    (state) => ({}),
-    dispatch => ({
-        showModal: () => dispatch(toggleLoginModal())
-    })
-)
 class MainPage extends React.Component {
-    static propTypes = {
-        showModal: PropTypes.func.isRequired
-    }
-
     styles = {
         body: {
             fontSmoothing: 'antialiased',
@@ -34,14 +21,9 @@ class MainPage extends React.Component {
         return nextProps.location === this.props.location
     }
 
-    showModal = () => {
-        const { showModal } = this.props;
-        showModal();
-    }
-
     render() {
         return <div data-main-page >
-            <Header logInClicked={this.showModal} />
+            <Header />
             <section className='section'
                 style={this.styles.body}>
                 <div className="container">
