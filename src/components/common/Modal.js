@@ -33,7 +33,10 @@ class Modal extends React.Component {
                 key={0}
                 style={style ? style : {}}>
                 <div onClick={() => this.props.closeModal()} style={this.styles.background} className='modal-background'></div>
-                <div className={`${isCard ? 'modal-card' : 'modal-content'}`}>{children}</div>
+                <div
+                    className={`${isCard ? 'modal-card' : 'modal-content'}`}>
+                    {children}
+                </div>
                 <button className="modal-close" onClick={() => this.props.closeModal()}></button>
             </section> : <span />
     }

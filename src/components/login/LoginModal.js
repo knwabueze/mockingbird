@@ -2,7 +2,6 @@ import React from 'react'
 import Modal from '../common/Modal'
 import Radium from 'radium'
 import LoginForm from './LoginForm'
-import icon from '../../static/icon.svg'
 import { inject, observer } from 'mobx-react'
 
 @inject('ui')
@@ -30,6 +29,20 @@ class LoginModal extends React.Component {
 
     closeModal = () => this.props.ui.toggleLoginModal()
 
+    styles = {
+        spanPadding: {
+            marginBottom: '0.8em'
+        },
+        coloredLogo: {
+            color: '#7D73AA',
+            fontSize: 25,
+            filter: 'brightness(0)'
+        },
+        noOverflow: {
+            overflow: 'hidden'
+        }
+    }
+
     render() {
         const { showLoginModal } = this.props.ui;
         return <Modal
@@ -37,13 +50,20 @@ class LoginModal extends React.Component {
             isOpen={showLoginModal}
             closeModal={this.closeModal}
             login-modal>
-            <section className="modal-card-body" style={[this.style.fadeIn,
-            this.style.roundedEdges,
-            this.style.cardWidth]}>
+            <section className="modal-card-body"
+                style={[this.style.fadeIn,
+                this.style.roundedEdges,
+                this.style.cardWidth,
+                this.styles.noOverflow]}>
                 <section className="section">
-                    <div className="has-text-centered">
-                        <span className="icon is-medium" style={this.style.iconMargin}>
-                            <img src={icon} alt="" />
+                    <div
+                        className="span-padding has-text-centered"
+                        style={this.styles.spanPadding}>
+                        <span
+                            role="img"
+                            aria-label="mockingbird"
+                            style={this.styles.coloredLogo}>
+                            &#128038;
                         </span>
                     </div>
                     <LoginForm />

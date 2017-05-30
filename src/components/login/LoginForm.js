@@ -13,7 +13,7 @@ class LoginForm extends React.Component {
         auth.signInWithEmailAndPassword(this.refs.email.value, this.refs.password.value)
             .then(() => {
                 ui.toggleLoginModal();
-            })
+            }).catch(() => { });
     }
 
     componentWillUnmount() {
