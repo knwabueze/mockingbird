@@ -5,7 +5,8 @@ import validateLogin from '../helpers/login-validation'
 @remotedev
 export class AuthStore {
     @observable user = null;
-    @observable errors = null;
+    @observable validationErrors = null;
+    @observable serverErrors = null;
 
     constructor(auth) {
         this.auth = auth;
@@ -21,33 +22,52 @@ export class AuthStore {
     }
 
     @action signOut() {
-        this.errors = null;
-        this.auth.signOut()
+        this.clearErrors();
+        return new Promise((resolve, reject) => this.auth.signOut()
             .catch(err => {
-                console.error("Error signing out.", err.stack);
-            })
+                this.serverErrors = err;
+                reject();
+            }).then(() => resolve()))
     }
 
     @action signInWithEmailAndPassword(email, password) {
-        this.errors = null;
-        validateLogin({ email, password })
-            .then(action(() => {
-                this.auth.signInWithEmailAndPassword(email, password)
-                    .catch(err => {
-                        console.error("Account with these credentials don't exist.", err.stack)
-                    }).then()
-            }))
-            .catch(action(err => {
-                this.errors = err;
-            }));
+        return new Promise((resolve, reject) => {
+            this.validateLoginForm(email, password)
+                .then(() => {
+                    this.auth.signInWithEmailAndPassword(email, password)
+                        .then(() => resolve())
+                        .catch(err => {
+                            this.serverErrors = err;
+                            reject()
+                        });
+                })
+                .catch(() => reject())
+        });
+    }
+
+    @action validateLoginForm(email, password) {
+        this.clearErrors();
+        return new Promise((resolve, reject) => {
+            validateLogin({ email, password })
+                .then(() => resolve())
+                .catch(err => {
+                    this.validationErrors = err;
+                    reject();
+                })
+        });
     }
 
     @action createUserWithEmailAndPassword(email, password) {
-        this.errors = null;
+        this.validationErrors = null;
         this.auth.createUserWithEmailAndPassword(email, password)
             .catch(err => {
                 console.error("Error creating email with username and password", err.stack)
             })
+    }
+
+    @action clearErrors() {
+        this.validationErrors = null;
+        this.serverErrors = null;
     }
 
     @computed get isAuthenticated() {
@@ -55,6 +75,6 @@ export class AuthStore {
     }
 
     @computed get hasErrors() {
-        return !!this.errors;
+        return !!this.validationErrors || !!this.serverErrors;
     }
 }

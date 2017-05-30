@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react'
 
 @inject('ui')
 @observer
-@Radium 
+@Radium
 class LoginModal extends React.Component {
     style = {
         fadeInAnimation: Radium.keyframes({
@@ -40,10 +40,12 @@ class LoginModal extends React.Component {
             <section className="modal-card-body" style={[this.style.fadeIn,
             this.style.roundedEdges,
             this.style.cardWidth]}>
-                <section className="section has-text-centered">
-                    <span className="icon is-medium" style={this.style.iconMargin}>
-                        <img src={icon} alt="" />
-                    </span>
+                <section className="section">
+                    <div className="has-text-centered">
+                        <span className="icon is-medium" style={this.style.iconMargin}>
+                            <img src={icon} alt="" />
+                        </span>
+                    </div>
                     <LoginForm />
                 </section>
             </section>
