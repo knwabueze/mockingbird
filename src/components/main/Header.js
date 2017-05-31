@@ -15,7 +15,7 @@ const styles = {
     }
 }
 
-const Header = Radium(({ logInClicked }) => <header className='hero is-small is-dark'
+const Header = Radium(({ logInClicked }) => <header className='hero is-small is-dark is-bold'
     style={styles.heroStyles}>
     <div className="hero-head">
         <Navbar transparent />

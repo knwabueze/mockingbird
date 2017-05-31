@@ -8,6 +8,7 @@ import {
 
 import MainPage from './main/MainPage';
 import LogoutRedirect from './logout/LogoutRedirect'
+import SignupPage from './signup/SignupPage'
 import { Provider } from 'mobx-react'
 
 export const createRouter = stores =>
@@ -16,6 +17,7 @@ export const createRouter = stores =>
             <div>
                 <Switch>
                     <Route exact path="/logout" component={LogoutRedirect} />
+                    <Route exact path="/signup" component={SignupPage} />
                     <Route exact path="/" component={MainPage} />
                 </Switch>
             </div>
