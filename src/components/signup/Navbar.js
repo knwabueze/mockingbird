@@ -1,11 +1,11 @@
 import React from 'react'
 import Radium from 'radium'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const styles = {
     invertIcon: {
         filter: 'brightness(0) invert(1)',
-        fontSize: 18
+        fontSize: 20
     },
     backGradient: {
         background: 'linear-gradient(to right, #40405c 0%,#6f71aa 80%,#8a76ab 100%)'
@@ -22,28 +22,36 @@ const Navbar = () =>
         className="nav has-shadow is-primary is-dark"
         style={styles.backGradient}
         data-signup-navbar>
-        <div className="nav-left"></div>
+        <div className="nav-left" style={{
+            flex: 1
+        }}></div>
         <div
             className="nav-center"
-            style={styles.flexboxCenter}>
-            <span
-                className="icon nav-item"
-                style={styles.invertIcon}>
-                &#128038;
-        </span>
+            style={[styles.flexboxCenter, {
+                flex: 1
+            }]}>
+            <Link to="/">
+                <span
+                    className="icon nav-item"
+                    style={styles.invertIcon}>
+                    &#128038;
+                </span>
+            </Link>
         </div>
-        <div className="nav-right">
-            <a
+        <div className="nav-right" style={{
+            flex: 1
+        }}>
+            <Link
                 style={{
                     color: 'rgba(245, 245, 245, 0.7)',
                     ':hover': {
                         color: "#f5f5f5"
                     },
-                    paddingRight: 30
+                    paddingRight: "10%"
                 }}
                 className="nav-item" to="/">
                 Have an account? Log in.
-            </a>
+            </Link>
         </div>
     </nav>;
 
