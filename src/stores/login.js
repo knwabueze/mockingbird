@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx'
+import { observable, action, computed, toJS, runInAction } from 'mobx'
 import validationPromise from '../services/validation-promise'
 import remotedev from 'mobx-remotedev'
 import _ from 'lodash'
@@ -20,6 +20,7 @@ export class LoginStore {
         },
         meta: {
             submited: false,
+            submitAttempts: 0,
             lastServerError: null
         }
     }
@@ -28,41 +29,44 @@ export class LoginStore {
 
     constructor(auth) {
         this.auth = auth;
-        this.form.meta.submited = false;
     }
 
-    @action updateField(field, value) {
+    @action updateField = (field, value) => {
         validationPromise({ [field]: this.form.fields[field].rules }, { [field]: value })
             .then(() => {
                 this.form.fields[field].error = null;
-                this.form.fields[field].value = value;
             })
             .catch(err => {
                 let newErr = _.values(err)[0]
                 this.form.fields[field].error = newErr;
             })
+        this.form.fields[field].value = value;
     }
 
-    @action onSubmit() {
-        return new Promise((resolve, reject) => {
-            _.mapKeys(this.form.fields, (value, key) => {
-                this.updateField(key, value.value);
-            })
+    @action onSubmit = () => {
+        runInAction("check if form has gone through inital validaiton", () => {
+            if (this.form.meta.submitAttempts === 0) {
+                _.mapKeys(toJS(this.form.fields), (value, key) => {
+                    this.updateField(key, value.value);
+                })
+            }         
+        })
 
+        ++this.form.meta.submitAttempts;
+        return new Promise((resolve, reject) => {
             if (this.hasErrors) {
-                reject(new Error("Validation errors need to be resolved."));
+                this.form.meta.lastServerError = "auth/validation-needs-to-be-resolved";
+                reject("Validation errors need to be resolved.");
             } else {
                 const { email, password } = this.form.fields;
                 this.auth.signInWithEmailAndPassword(email.value, password.value)
+                    .catch(err => {
+                        this.form.meta.lastServerError = err.code;
+                        reject(err.code);
+                    })
                     .then(() => {
                         this.form.meta.submited = true;
-                        this.clearAllValues();
                         resolve();
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        this.form.meta.lastServerError = err.code;
-                        reject(new Error(err.code));
                     })
             }
         })
@@ -75,6 +79,10 @@ export class LoginStore {
         this.form.meta.lastServerError = null;
     }
 
+    @action clearFieldErrors(field) {
+        this.form.fields[field].error = null;
+    }
+
     @action clearAllValues() {
         _.mapKeys(this.form.fields, (value, key) => {
             this.form.fields[key].value = "";
@@ -82,12 +90,13 @@ export class LoginStore {
     }
 
     @computed get hasErrors() {
-        let hasErrors = false;
+        const { fields } = this.form;
+        let acc = false;
 
-        _.forEach(this.form.fields, (value, key) => {
-            hasErrors = hasErrors || !!value.error
-        });
+        _.each(toJS(fields), (value, key) => {
+            acc = !!value.error || acc;
+        })
 
-        return hasErrors;
+        return acc;
     }
 }

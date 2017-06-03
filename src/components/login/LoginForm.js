@@ -19,10 +19,11 @@ class LoginForm extends React.Component {
                 history.push("/");
             })
             .catch(err => {
+                console.log(err);
             });
     }
 
-    renderErrorIcon(field) {
+    renderErrorIcon = field => {
         const { fields } = this.props.login.form;
 
         return fields[field].error ?
@@ -32,6 +33,7 @@ class LoginForm extends React.Component {
     }
 
     componentWillUnmount() {
+        this.props.login.form.meta.submitAttempts = 0;
         this.props.login.clearAllErrors();
         this.props.login.clearAllValues();
 
@@ -42,19 +44,22 @@ class LoginForm extends React.Component {
         clearTimeout(this.timeout);
     }
 
-    updateField(field) {
-        const { login } = this.props;
-
-        clearTimeout(this.timeout);
-
-        this.timeout = setTimeout(() => {
-            login.updateField(field, this.refs[field].value)
-        }, 800);
+    updateField = field => {
+        this.props.login.clearFieldErrors(field);
+        if (this.props.login.form.meta.submitAttempts > 0) {
+            const { login } = this.props;
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                login.updateField(field, this.refs[field].value)
+            }, 800);
+        }
     }
 
-    immediatelyUpdateField(field) {
-        const { login } = this.props;
-        login.updateField(field, this.refs[field].value)
+    immediatelyUpdateField = field => {
+        if (this.props.login.form.meta.submitAttempts > 0) {
+            const { login } = this.props;
+            login.updateField(field, this.refs[field].value)
+        }
     }
 
     render() {
@@ -65,8 +70,8 @@ class LoginForm extends React.Component {
             <div className="field">
                 <p className="control has-icons-left has-icons-right">
                     <input
-                        onChange={this.updateField.bind(this, 'email')}
-                        onBlur={this.immediatelyUpdateField.bind(this, 'email')}
+                        onChange={() => this.updateField('email')}
+                        onBlur={() => this.immediatelyUpdateField('email')}
                         className={`input ${email.error ? 'is-danger' : ''}`}
                         type="text"
                         placeholder="Email..."
@@ -81,8 +86,8 @@ class LoginForm extends React.Component {
             <div className="field">
                 <p className="control has-icons-left has-icons-right">
                     <input
-                        onChange={this.immediatelyUpdateField.bind(this, 'password')}
-                        onBlur={this.immediatelyUpdateField.bind(this, 'password')}
+                        onChange={() => this.updateField('password')}
+                        onBlur={() => this.immediatelyUpdateField('password')}
                         className={`input ${password.error ? 'is-danger' : ''}`}
                         type="password"
                         placeholder="Password..."
