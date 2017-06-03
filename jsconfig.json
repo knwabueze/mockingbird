@@ -1,9 +1,8 @@
 {
+    "include": [
+        "src/**/*.js"
+    ],
     "compilerOptions": {
         "experimentalDecorators": true
-    },
-    "include": [
-        "*.js",
-        "**/*.js"
-    ]
+    }
 }

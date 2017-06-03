@@ -11,7 +11,7 @@ import LogoutRedirect from './logout/LogoutRedirect'
 import SignupPage from './signup/SignupPage'
 import { Provider } from 'mobx-react'
 
-export const createRouter = stores =>
+export const createRouter = (stores) =>
     <Provider {...stores}>
         <Router>
             <div>

@@ -1,5 +1,6 @@
 import { UIStore } from './ui'
 import { AuthStore } from './auth'
+import { LoginStore } from './login'
 import firebase from 'firebase'
 
 try {
@@ -16,9 +17,9 @@ try {
 }
 
 const auth = firebase.auth();
-const database = firebase.database().ref();
 
 export default () => ({
     ui: new UIStore(),
-    auth: new AuthStore(auth)
+    auth: new AuthStore(auth),
+    login: new LoginStore(auth)
 })

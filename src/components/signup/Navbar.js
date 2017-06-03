@@ -1,5 +1,6 @@
 import React from 'react'
 import Radium from 'radium'
+import { observer, inject } from 'mobx-react'
 import { Link } from 'react-router-dom'
 
 const styles = {
@@ -17,7 +18,7 @@ const styles = {
     }
 }
 
-const Navbar = () =>
+const Navbar = ({ ui }) =>
     <nav
         className="nav has-shadow is-primary is-dark"
         style={styles.backGradient}
@@ -41,7 +42,7 @@ const Navbar = () =>
         <div className="nav-right" style={{
             flex: 1
         }}>
-            <Link
+            <a
                 style={{
                     color: 'rgba(245, 245, 245, 0.7)',
                     ':hover': {
@@ -49,10 +50,11 @@ const Navbar = () =>
                     },
                     paddingRight: "10%"
                 }}
-                className="nav-item" to="/">
+                className="nav-item"
+                onClick={() => ui.toggleLoginModal()}>
                 Have an account? Log in.
-            </Link>
+            </a>
         </div>
     </nav>;
 
-export default Radium(Navbar);
+export default inject("ui")(observer(Radium(Navbar)));

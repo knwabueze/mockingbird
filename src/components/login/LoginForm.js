@@ -3,50 +3,71 @@ import { inject, observer } from 'mobx-react'
 import { toJS } from 'mobx'
 import LoginErrors, { LoginError } from './LoginErrors'
 import _ from 'lodash'
+import { withRouter } from 'react-router-dom'
 
-@inject("ui", "auth")
+@withRouter
+@inject("ui", "login")
 @observer
 class LoginForm extends React.Component {
+    timeout = null;
     signInUser = e => {
         e.preventDefault();
-        const { auth, ui } = this.props;
-        auth.signInWithEmailAndPassword(this.refs.email.value, this.refs.password.value)
+        const { ui, login, history } = this.props;
+        login.onSubmit()
             .then(() => {
                 ui.toggleLoginModal();
-            }).catch(() => { });
-    }
-
-    componentWillUnmount() {
-        const { auth } = this.props;
-        auth.clearErrors();
+                history.push("/");
+            })
+            .catch(err => {
+            });
     }
 
     renderErrorIcon(field) {
-        const { validationErrors } = this.props.auth;
+        const { fields } = this.props.login.form;
 
-        return validationErrors && toJS(validationErrors)[field] ?
+        return fields[field].error ?
             <span className="icon is-small is-right">
                 <i className="fa fa-warning"></i>
             </span> : null
     }
 
-    reupdateValidation = () => {
-        const { auth } = this.props;
-        if (auth.hasErrors) {
-            auth.validateLoginForm(this.refs.email.value, this.refs.password.value)
-                .catch(() => { });
-        }
+    componentWillUnmount() {
+        this.props.login.clearAllErrors();
+        this.props.login.clearAllValues();
+
+        _.mapKeys(this.refs, (value, key) => {
+            this.refs[key].value = "";
+        })
+
+        clearTimeout(this.timeout);
+    }
+
+    updateField(field) {
+        const { login } = this.props;
+
+        clearTimeout(this.timeout);
+
+        this.timeout = setTimeout(() => {
+            login.updateField(field, this.refs[field].value)
+        }, 800);
+    }
+
+    immediatelyUpdateField(field) {
+        const { login } = this.props;
+        login.updateField(field, this.refs[field].value)
     }
 
     render() {
-        const { loading, validationErrors, serverErrors } = this.props.auth
+        const { lastServerError } = this.props.login.form.meta;
+        const { email, password } = this.props.login.form.fields;
 
-        return !loading ? <form onSubmit={this.signInUser}>
+        return <form onSubmit={this.signInUser}>
             <div className="field">
                 <p className="control has-icons-left has-icons-right">
                     <input
-                        onChange={this.reupdateValidation}
-                        className={`input ${validationErrors && toJS(validationErrors).email ? 'is-danger' : ''}`}
+                        onChange={this.updateField.bind(this, 'email')}
+                        onBlur={this.immediatelyUpdateField.bind(this, 'email')}
+                        className={`input ${email.error ? 'is-danger' : ''}`}
                         type="text"
                         placeholder="Email..."
                         ref="email" />
@@ -55,14 +76,14 @@ class LoginForm extends React.Component {
                     </span>
                     {this.renderErrorIcon('email')}
                 </p>
-                {validationErrors && toJS(validationErrors).email ?
-                    <LoginError error={toJS(validationErrors).email} /> : null}
+                {email.error ? <LoginError error={toJS(email.error)} /> : null}
             </div>
             <div className="field">
                 <p className="control has-icons-left has-icons-right">
                     <input
-                        onChange={this.reupdateValidation}
-                        className={`input ${validationErrors && toJS(validationErrors).password ? 'is-danger' : ''}`}
+                        onChange={this.immediatelyUpdateField.bind(this, 'password')}
+                        onBlur={this.immediatelyUpdateField.bind(this, 'password')}
+                        className={`input ${password.error ? 'is-danger' : ''}`}
                         type="password"
                         placeholder="Password..."
                         ref="password" />
@@ -71,10 +92,10 @@ class LoginForm extends React.Component {
                         <i className="fa fa-unlock"></i>
                     </span>
                 </p>
-                {validationErrors && toJS(validationErrors).password ?
-                    <LoginError error={toJS(validationErrors).password} /> : null}
+                {password.error ? <LoginError error={toJS(password.error)} /> : null}
             </div>
-            <LoginErrors serverErrors={serverErrors} errors={_.map(toJS(validationErrors))} />
+            <br />
+            <LoginErrors serverErrors={lastServerError} errors={[email.error, password.error]} />
             <div className="field is-horizontal">
                 <div className="field-label" />
                 <p className="control">
@@ -83,7 +104,7 @@ class LoginForm extends React.Component {
                     </button>
                 </p>
             </div>
-        </form> : null
+        </form>
     }
 }
 

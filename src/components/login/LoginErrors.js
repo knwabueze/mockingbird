@@ -1,15 +1,19 @@
 import React from 'react'
+import _ from 'lodash'
 
-export const LoginError = ({ error }) => <li className="help is-danger">
-    {error.map((i, k) => {
-        return <span key={k}>
-            {i}
-            <br/>
-        </span>
-    })}
-</li>;
+export const LoginError = ({ error, style = {} }) => {    
+    return <li style={style} className="help is-danger">
+        {_.map(error, (v, i) => {
+            return <span key={i}>
+                {v}
+                <br/>
+            </span>
+        })}
+    </li>
+};
 
 function switchServerError(serverError) {
+    console.log(serverError.code);
     switch (serverError.code) {
         case "auth/user-not-found":
             return "Username and password don't match any in the server. Maybe you haven't registered?";
@@ -22,7 +26,9 @@ function switchServerError(serverError) {
 
 const LoginErrors = ({ errors, serverErrors }) => {
     return (errors && errors.length !== 0) || serverErrors ? <ul className="container">
-        {errors.map((v, i) => <LoginError error={v} key={i} />)}
+        {errors.map((v, i) => <LoginError style={{
+            display: 'list-item'
+        }} error={v} key={i} />)}
         {serverErrors ? <li className="help is-danger"> {switchServerError(serverErrors)} </li> : null}
     </ul> : null
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import SignupForm from './SignupForm'
+import LoginModal from '../login/LoginModal'
 
 class SignupPage extends React.Component {
     styles = {
@@ -26,6 +27,7 @@ class SignupPage extends React.Component {
                     <SignupForm />
                 </div>
             </section>
+            <LoginModal />
         </div>
     }
 }
