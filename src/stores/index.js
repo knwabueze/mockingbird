@@ -1,6 +1,7 @@
 import { UIStore } from './ui'
 import { AuthStore } from './auth'
 import { LoginStore } from './login'
+import { SignupStore } from './signup'
 import firebase from 'firebase'
 
 try {
@@ -18,8 +19,10 @@ try {
 
 const auth = firebase.auth();
 
+
 export default () => ({
     ui: new UIStore(),
     auth: new AuthStore(auth),
-    login: new LoginStore(auth)
+    login: new LoginStore(auth),
+    signup: new SignupStore(auth)
 })

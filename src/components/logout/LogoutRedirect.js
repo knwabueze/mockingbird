@@ -9,12 +9,13 @@ class LogoutRedirect extends React.Component {
     }
 
     componentDidMount() {
-        this.props.auth.signOut();
+        this.props.location.state && this.props.auth.signOut();
         this.setState({ finishedOperation: true });
     }
 
-    render() {
-        return this.state.finishedOperation ? <Redirect to={this.props.location.state.from} /> : <span />
+    render() {        
+        const from = this.props.location.state ? this.props.location.state.from : '/';
+        return this.state.finishedOperation ? <Redirect to={from} /> : <span />
     }
 }
 

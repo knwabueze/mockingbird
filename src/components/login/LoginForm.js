@@ -50,16 +50,18 @@ class LoginForm extends React.Component {
             const { login } = this.props;
             clearTimeout(this.timeout);
             this.timeout = setTimeout(() => {
-                login.updateField(field, this.refs[field].value)
-            }, 800);
+                login.validateField(field, this.refs[field].value)
+            }, 450);
         }
+        this.props.login.updateField(field, this.refs[field].value);
     }
 
     immediatelyUpdateField = field => {
         if (this.props.login.form.meta.submitAttempts > 0) {
             const { login } = this.props;
-            login.updateField(field, this.refs[field].value)
+            login.validateField(field, this.refs[field].value)
         }
+        this.props.login.updateField(field, this.refs[field].value);
     }
 
     render() {
@@ -91,11 +93,11 @@ class LoginForm extends React.Component {
                         className={`input ${password.error ? 'is-danger' : ''}`}
                         type="password"
                         placeholder="Password..."
-                        ref="password" />
-                    {this.renderErrorIcon('password')}
+                        ref="password" />                    
                     <span className="icon is-small is-left">
                         <i className="fa fa-unlock"></i>
                     </span>
+                    {this.renderErrorIcon('password')}
                 </p>
                 {password.error ? <LoginError error={toJS(password.error)} /> : null}
             </div>

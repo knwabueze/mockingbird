@@ -1,10 +1,8 @@
 import { observable, action, toJS, runInAction } from 'mobx'
-import remotedev from 'mobx-remotedev'
 import _ from 'lodash'
 import { FormStore } from './common/form'
 
-@remotedev
-export class LoginStore extends FormStore {
+export class SignupStore extends FormStore {
     @observable form = {
         fields: {
             email: {
@@ -15,17 +13,15 @@ export class LoginStore extends FormStore {
             password: {
                 value: '',
                 error: null,
-                rules: 'required'
+                rules: 'required|alpha_num|between:6,24'
             }
         },
         meta: {
-            submited: false,
+            lastServerError: null,
             submitAttempts: 0,
-            lastServerError: null
+            submitted: false
         }
     }
-
-    auth = null;
 
     constructor(auth) {
         super();
@@ -48,7 +44,7 @@ export class LoginStore extends FormStore {
                 reject("Validation errors need to be resolved.");
             } else {
                 const { email, password } = this.form.fields;
-                this.auth.signInWithEmailAndPassword(email.value, password.value)
+                this.auth.createUserWithEmailAndPassword(email.value, password.value)
                     .catch(err => {
                         this.form.meta.lastServerError = err.code;
                         reject(err.code);

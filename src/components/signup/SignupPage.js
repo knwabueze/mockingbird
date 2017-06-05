@@ -11,6 +11,7 @@ class SignupPage extends React.Component {
         },
         containerMargin: {
             marginLeft: '30%',
+            marginRight: '30%',
             marginTop: '4em',
             display: 'block'
         },

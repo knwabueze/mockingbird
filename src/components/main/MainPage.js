@@ -17,10 +17,6 @@ class MainPage extends React.Component {
         }
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.location === this.props.location
-    }
-
     render() {
         return <div data-main-page >
             <Header />
