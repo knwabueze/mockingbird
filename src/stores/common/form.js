@@ -1,4 +1,4 @@
-import { action, computed, toJS } from 'mobx'
+import { action, computed } from 'mobx'
 import validationPromise from '../../services/validation-promise'
 import _ from 'lodash'
 
@@ -39,7 +39,7 @@ export class FormStore {
         const { fields } = this.form;
         let acc = false;
 
-        _.each(toJS(fields), (value, key) => {
+        _.each(fields, (value, key) => {
             acc = !!value.error || acc;
         })
 

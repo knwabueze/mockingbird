@@ -1,4 +1,4 @@
-import { observable, action, toJS, runInAction } from 'mobx'
+import { observable, action, runInAction } from 'mobx'
 import remotedev from 'mobx-remotedev'
 import _ from 'lodash'
 import { FormStore } from './common/form'
@@ -29,19 +29,18 @@ export class LoginStore extends FormStore {
 
     constructor(auth) {
         super();
-        this.auth = auth;
+        this.auth = { signInWithEmailAndPassword: auth.signInWithEmailAndPassword };
     }
 
     @action onSubmit = () => {
-        runInAction("check if form has gone through inital validaiton", () => {
-            if (this.form.meta.submitAttempts === 0) {
-                _.mapKeys(toJS(this.form.fields), (value, key) => {
-                    this.validateField(key, value.value);
-                })
-            }
-        })
-
         ++this.form.meta.submitAttempts;
+
+        runInAction('ensure that every field is validated', () => {
+            _.mapKeys(this.form.fields, (value, key) => {
+                this.validateField(key, value.value);
+            })
+        }, this)
+
         return new Promise((resolve, reject) => {
             if (this.hasErrors) {
                 this.form.meta.lastServerError = "auth/validation-needs-to-be-resolved";
